@@ -26,13 +26,10 @@ function Tree(array) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
-  // root attribute
-  let root;
 
-  // Sort the array
-  const sortedArr = array.sort((a, b) => a - b);
-  // Remove duplicates
-  const cleansedArr = removeDuplicates(sortedArr);
+  function getRoot() {
+    return root
+  }
 
   function buildTree(arr, low, high) {
     if (low > high) {
@@ -45,10 +42,33 @@ function Tree(array) {
     root.right = buildTree(arr, mid + 1, high);
     return root;
   }
-
+  // root attribute
+  let root;
+  // Sort the array
+  const sortedArr = array.sort((a, b) => a - b);
+  // Remove duplicates
+  const cleansedArr = removeDuplicates(sortedArr);
   root = buildTree(cleansedArr, 0, cleansedArr.length - 1)
-  return { root, prettyPrint }
+  
+  function insert(value, rootRef = root) {
+    if (rootRef === null) {
+      rootRef = Node();
+      rootRef.data = value;
+      return rootRef;
+    }
+    
+    if (rootRef.data > value) {
+      return insert(value, rootRef.left);
+    } else {
+      return insert(value, rootRef.right);
+    }
+  }
+
+  return { root, prettyPrint, insert, getRoot }
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-bst.prettyPrint(bst.root)
+// bst.prettyPrint(bst.getRoot())
+bst.insert(21);
+console.log(bst.getRoot())
+// bst.prettyPrint(bst.getRoot())
