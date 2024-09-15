@@ -68,11 +68,39 @@ function Tree(array) {
       return rootRef
     }
   }
-  return { root, prettyPrint, insert, getRoot }
+
+  function deleteValue(value, rootRef = root) {
+    // case for leaf node
+    if (rootRef.data === value && rootRef.left === null && rootRef.right === null) {
+      rootRef = null;
+      return rootRef;
+    } else if (rootRef.data === value && (rootRef.left === null && rootRef.right !== null)) { //
+      // case for node with one child on the right
+      rootRef = rootRef.right;
+      return rootRef;
+    }  else if (rootRef.data === value && (rootRef.left !== null && rootRef.right === null)) {
+      // case for node with one child on the left
+      rootRef = rootRef.left;
+      return rootRef;
+    }
+
+    // case for node with two child
+
+    // recursive case
+    if (rootRef.data > value) {
+      rootRef.left = deleteValue(value, rootRef.left);
+      return rootRef;
+    } else if (rootRef.data < value){
+      rootRef.right = deleteValue(value, rootRef.right);
+      return rootRef;
+    } 
+  }
+
+  return { root, prettyPrint, insert, getRoot, deleteValue }
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // bst.prettyPrint(bst.getRoot())
 bst.insert(21);
 bst.insert(2);
-bst.prettyPrint(bst.getRoot())
+bst.prettyPrint(bst.getRoot());
