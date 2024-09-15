@@ -84,18 +84,18 @@ function Tree(array) {
       return rootRef;
     } else if (rootRef.data === value && (rootRef.left !== null && rootRef.right !== null)) {
       // case for node with two child
-      let nodeRef = rootRef.right; // pointer to the left of the right node of the node
-      let inorderSucessor = rightOfCurrentNode.left;
-      if (inorderSucessor.left !== null) {
-        while (rightOfCurrentNode.left !== null) {
+      if (rootRef.right.left === null && rootRef.right.right === null) {
+        rootRef.data = rootRef.right.data;
+        rootRef.right = null;
+      } else { 
+        let nodeRef = rootRef.right; // pointer to the left of the right node of the node
+        let inorderSucessor = nodeRef.left;
+        while (inorderSucessor.left !== null) {
           nodeRef = inorderSucessor;
           inorderSucessor = inorderSucessor.left;
-        }
+        } 
         rootRef.data = inorderSucessor.data;
-        nodeRef.left = null;
-      } else {
-        rootRef.data = inorderSucessor.data;
-        nodeRef.left = null;
+        nodeRef.left = nodeRef.left.left !== null ? nodeRef.left.left : nodeRef.left.right;
       }
       return rootRef;
     }
@@ -116,7 +116,8 @@ function Tree(array) {
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.insert(21);
 bst.insert(2);
-bst.prettyPrint(bst.getRoot())
-bst.deleteValue(4);
-bst.deleteValue(67);
+bst.insert(19);
+bst.insert(47);
+bst.prettyPrint(bst.getRoot());
+bst.deleteValue(8);
 bst.prettyPrint(bst.getRoot());
