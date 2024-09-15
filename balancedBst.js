@@ -82,11 +82,25 @@ function Tree(array) {
       // case for node with one child on the left
       rootRef = rootRef.left;
       return rootRef;
+    } else if (rootRef.data === value && (rootRef.left !== null && rootRef.right !== null)) {
+      // case for node with two child
+      let nodeRef = rootRef.right; // pointer to the left of the right node of the node
+      let inorderSucessor = rightOfCurrentNode.left;
+      if (inorderSucessor.left !== null) {
+        while (rightOfCurrentNode.left !== null) {
+          nodeRef = inorderSucessor;
+          inorderSucessor = inorderSucessor.left;
+        }
+        rootRef.data = inorderSucessor.data;
+        nodeRef.left = null;
+      } else {
+        rootRef.data = inorderSucessor.data;
+        nodeRef.left = null;
+      }
+      return rootRef;
     }
 
-    // case for node with two child
-
-    // recursive case
+    // tree traversing
     if (rootRef.data > value) {
       rootRef.left = deleteValue(value, rootRef.left);
       return rootRef;
@@ -100,7 +114,9 @@ function Tree(array) {
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-// bst.prettyPrint(bst.getRoot())
 bst.insert(21);
 bst.insert(2);
+bst.prettyPrint(bst.getRoot())
+bst.deleteValue(4);
+bst.deleteValue(67);
 bst.prettyPrint(bst.getRoot());
