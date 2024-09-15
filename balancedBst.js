@@ -58,17 +58,21 @@ function Tree(array) {
     }
     
     if (rootRef.data > value) {
-      return insert(value, rootRef.left);
+      rootRef.left = insert(value, rootRef.left);
+      return rootRef
+    } else if (rootRef.data < value){
+      rootRef.right = insert(value, rootRef.right);
+      return rootRef
     } else {
-      return insert(value, rootRef.right);
+      console.log('Value already exists.');
+      return rootRef
     }
   }
-
   return { root, prettyPrint, insert, getRoot }
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // bst.prettyPrint(bst.getRoot())
 bst.insert(21);
-console.log(bst.getRoot())
-// bst.prettyPrint(bst.getRoot())
+bst.insert(2);
+bst.prettyPrint(bst.getRoot())
