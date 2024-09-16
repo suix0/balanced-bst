@@ -110,14 +110,30 @@ function Tree(array) {
     } 
   }
 
-  return { root, prettyPrint, insert, getRoot, deleteValue }
+  function find(value, rootRef = root) {
+    if (rootRef === null) {
+      console.log('No such value exists!');
+      return;
+    } else {
+      if (rootRef.data === value) {
+        return rootRef;
+      } else if (rootRef.data > value) {
+        return find(value, rootRef.left);
+      } else if (rootRef.data < value) {
+        return find(value, rootRef.right);
+      } 
+    }
+  }
+
+  return { root, prettyPrint, insert, getRoot, deleteValue, find }
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+bst.prettyPrint(bst.getRoot());
+bst.insert(14);
 bst.insert(21);
 bst.insert(2);
-bst.insert(19);
-bst.insert(47);
+bst.insert(18);
 bst.prettyPrint(bst.getRoot());
-bst.deleteValue(8);
-bst.prettyPrint(bst.getRoot());
+const nodeToFind = bst.find(9);
+console.log(nodeToFind);
