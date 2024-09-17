@@ -182,9 +182,28 @@ function Tree(array) {
     callback(rootRef);
   }
 
+  function height(node, rootRef = root) {
+
+  }
+
+  function depth(node, rootRef = root, depthCount = 0) {
+    if (rootRef === null) {
+      console.log('No such node exists!');
+      return;
+    } else {
+      if (rootRef.data === node.data) {
+        return depthCount;
+      } else if (rootRef.data > node.data) {
+        return depth(node, rootRef.left, depthCount += 1);
+      } else if (rootRef.data < node.data) {
+        return depth(node, rootRef.right, depthCount += 1);
+      } 
+    }
+
+  }
 
 
-  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder };
+  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder, height, depth };
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -194,6 +213,6 @@ bst.insert(21);
 bst.insert(2);
 bst.insert(18);
 bst.prettyPrint(bst.getRoot());
-// bst.preOrder((node) => console.log(node.data));
-// bst.inOrder((node) => console.log(node.data));
-bst.postOrder((node) => console.log(node.data));
+const node = bst.find(6345)
+console.log(bst.depth(node));
+
