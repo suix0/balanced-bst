@@ -140,13 +140,26 @@ function Tree(array) {
       if (currentNode === null) {
         continue
       }
-      callback(currentNode.data);
+      callback(currentNode);
       queue.push(currentNode.left);
       queue.push(currentNode.right);
     }
   }
 
-  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder }
+  function preOrder(callback, rootRef = root) {
+    if (rootRef === null) {
+      return;
+    }
+    if (typeof callback !== 'function') {
+      throw new Error('A callback is required.'); 
+    }
+    callback(rootRef);
+    preOrder(callback, rootRef.left);
+    preOrder(callback, rootRef.right);
+  }
+
+
+  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder }
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -156,9 +169,4 @@ bst.insert(21);
 bst.insert(2);
 bst.insert(18);
 bst.prettyPrint(bst.getRoot());
-bst.levelOrder((node) => console.log(node));
-try {
-  bst.levelOrder(1);
-} catch (e) {
-  console.log(e);
-}
+bst.preOrder((node) => console.log(node.data));
