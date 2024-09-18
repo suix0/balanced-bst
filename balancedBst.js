@@ -207,17 +207,27 @@ function Tree(array) {
     }
   }
 
+  function isBalanced() {
+    const leftSubtreeHeight = height(getRoot().left) + 1;
+    const rightSubtreeHeight = height(getRoot().right) + 1;
+    if (Math.abs((leftSubtreeHeight - rightSubtreeHeight)) > 1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder, height, height, depth };
+  function rebalance() {
+    const array = [];
+    inOrder((node) => {
+      array.push(node.data);
+    });
+    root = buildTree(array, 0, array.length - 1);
+  }
+
+  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder, height, depth, isBalanced, rebalance };
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-bst.prettyPrint(bst.getRoot());
-bst.insert(14);
-bst.insert(21);
-bst.insert(2);
-bst.insert(18);
-bst.prettyPrint(bst.getRoot());
-const node = bst.find(67);
-console.log(bst.height(node));
 
+export { Node, removeDuplicates, Tree }
