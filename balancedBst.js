@@ -182,8 +182,14 @@ function Tree(array) {
     callback(rootRef);
   }
 
-  function height(node, rootRef = root) {
-
+  function height(node) {
+    if (node === null) {
+      return -1;
+    }
+    const leftSubtreeHeight = height(node.left);
+    const rightSubtreeHeight = height(node.right);
+    const finalHeight = Math.max(leftSubtreeHeight, rightSubtreeHeight) + 1;
+    return finalHeight;
   }
 
   function depth(node, rootRef = root, depthCount = 0) {
@@ -199,11 +205,10 @@ function Tree(array) {
         return depth(node, rootRef.right, depthCount += 1);
       } 
     }
-
   }
 
 
-  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder, height, depth };
+  return { root, prettyPrint, insert, getRoot, deleteValue, find, levelOrder, preOrder, inOrder, postOrder, height, height, depth };
 } 
 
 const bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -213,6 +218,6 @@ bst.insert(21);
 bst.insert(2);
 bst.insert(18);
 bst.prettyPrint(bst.getRoot());
-const node = bst.find(6345)
-console.log(bst.depth(node));
+const node = bst.find(67);
+console.log(bst.height(node));
 
